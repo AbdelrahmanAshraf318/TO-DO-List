@@ -20,13 +20,20 @@ public class Todo
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @Column(columnDefinition = "BINARY(16)", unique = true, nullable = false)
     private UUID id;
+
+    @Column(nullable = false)
     private String name;
+
+
     private String task; // this for the description of the task
+
+    @Column(nullable = false)
     private Boolean completed;
 
     @CreationTimestamp // Automatically sets the value to the current timesamp
-    @Column(updatable = false) //ENsures that the value is never updated
+    @Column(updatable = false) //Ensures that the value is never updated
     private LocalDateTime createdAt;
 
     public UUID getId() {
