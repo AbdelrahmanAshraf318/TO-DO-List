@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Todo</title>
+</head>
+<body>
+<h1>Edit Todo</h1>
+<form th:action="@{/todos/{id}/update(id=${todo.getId()})}" method="post">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" th:value="${todo.getName()}" required>
+    <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" th:text="${todo.getTask()}"></textarea>
+    <br>
+    <button type="submit">Update</button>
+</form>
+<a href="/todos">Back to List</a>
+</body>
+</html>
