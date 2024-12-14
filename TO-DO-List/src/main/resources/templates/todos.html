@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>
+
+    </style>
+    <link rel="stylesheet" th:href="@{/css/todoStyle.css}">
     <title>To-Do List</title>
 </head>
 <body>
 <h1>To-Do List</h1>
-<a href="/todos/new">Add New Todo</a>
+<a href="/todos/new" class="btn-link">Add New Todo</a>
 <ul>
+    <!-- Loop through each todo and display its details -->
     <li th:each="todo : ${todos}">
-        <strong th:text="${todo.getName()}">Title</strong>:
-        <span th:text="${todo.getTask()}">Description</span>
-        <a th:href="@{/todos/{id}/edit(id=${todo.getId()})}">Edit</a>
-        <form th:action="@{/todos/{id}/delete(id=${todo.getId()})}" method="post" style="display:inline;">
-            <button type="submit">Delete</button>
+        <!-- Display the title and description of each todo -->
+        <strong th:text="${todo.name}">Title</strong>:
+        <span th:text="${todo.task}">Description</span>
+        <br>
+        <!-- Display the completion status -->
+        <span th:text="${todo.completed ? 'Completed' : 'Not Completed'}"></span>
+        <br>
+        <!-- Link to edit the specific todo -->
+        <a th:href="@{/todos/{id}/edit(id=${todo.id})}" class="btn">Edit</a>
+        <!-- Form to delete the specific todo -->
+        <form th:action="@{/todos/{id}/delete(id=${todo.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete" />
+            <button class="btn" type="submit">Delete</button>
         </form>
     </li>
 </ul>

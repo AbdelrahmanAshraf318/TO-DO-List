@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -34,6 +35,10 @@ public class TodoMvcController
 
     @PostMapping
     public String addTodo(@ModelAttribute Todo todo) {
+        todo.setCreatedAt(LocalDateTime.now().now());  // Set the current time here
+        if (todo.getCompleted() == null) {  // Check if 'completed' was not sent in the form
+            todo.setCompleted(false);  // Set it to false by default if not checked
+        }
         todoRepository.save(todo);
         return "redirect:/todos"; // Redirect to the list view
     }
@@ -50,14 +55,16 @@ public class TodoMvcController
     public String updateTodo(@PathVariable UUID id, @ModelAttribute Todo updatedTodo) {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Todo not found"));
+        todo.setCreatedAt(LocalDateTime.now().now());  // Set the current time here
         todo.setName(updatedTodo.getName());
         todo.setTask(updatedTodo.getTask());
+        todo.setCompleted(updatedTodo.getCompleted());  // Handle completed status
         todoRepository.save(todo);
         return "redirect:/todos";
     }
 
     // **Handle Deletion**
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public String deleteTodo(@PathVariable UUID id) {
         todoRepository.deleteById(id);
         return "redirect:/todos"; // Redirect back to the list after deletion

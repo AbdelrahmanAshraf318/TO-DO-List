@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,10 +31,11 @@ public class Todo
     private String task; // this for the description of the task
 
     @Column(nullable = false)
-    private Boolean completed;
+    private Boolean completed = false;
 
     @CreationTimestamp // Automatically sets the value to the current timesamp
     @Column(updatable = false) //Ensures that the value is never updated
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime createdAt;
 
     public UUID getId() {
@@ -66,5 +68,9 @@ public class Todo
 
     public void setCompleted(Boolean completed) {
         this.completed = completed;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
